@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>动漫头像制作 - 一秒生成你的二次元头像</title>
+<meta name="description" content="上传照片一键生成动漫头像：变身二次元、时光相机（变老/变小/换性别）、专属表情包。数据本地处理，隐私安全。">
+<link rel="icon" href="app_icon_1024.png">
+<style>
+  :root {
+    --brand: #F5C243;
+    --brand-deep: #F0A21B;
+    --ink: #3A3226;
+    --ink-soft: #6F685C;
+    --surface: #FDF7EC;
+    --surface-2: #FFFBF0;
+    --line: #EDE3D2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── 顶部导航 ── */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(253, 247, 236, .92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; }
+  .nav .logo img { width: 32px; height: 32px; border-radius: 8px; }
+  .nav .links { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+  .nav a { color: var(--ink-soft); text-decoration: none; transition: color .2s; }
+  .nav a:hover { color: var(--ink); }
+  .lang-switch {
+    border: 1px solid var(--line); background: var(--surface-2);
+    border-radius: 999px; padding: 4px 12px; font-size: 13px; cursor: pointer;
+    color: var(--ink); font-family: inherit;
+  }
+  .lang-switch:hover { border-color: var(--brand); }
+
+  /* ── Hero ── */
+  .hero { padding: 72px 0 56px; text-align: center; overflow: hidden; }
+  .hero .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(245,194,67,.22); color: var(--ink);
+    border: 1px solid rgba(240,162,27,.35);
+    font-size: 13px; font-weight: 600;
+    border-radius: 999px; padding: 5px 14px; margin-bottom: 22px;
+  }
+  .hero h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 800; letter-spacing: -0.5px; }
+  .hero h1 .hl { color: var(--brand-deep); }
+  .hero .sub { font-size: clamp(15px, 2vw, 18px); color: var(--ink-soft); margin: 18px auto 0; max-width: 620px; }
+  .hero .cta-row { display: flex; gap: 14px; justify-content: center; align-items: stretch; margin-top: 32px; flex-wrap: wrap; }
+  .hero .cta-main {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--ink); color: #fff; text-decoration: none;
+    padding: 14px 26px; border-radius: 14px; font-size: 16px; font-weight: 700;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .hero .cta-main svg { width: 20px; height: 20px; fill: #fff; flex: none; }
+  .hero .cta-main:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(58,50,38,.3); }
+  .hero .cta-ghost {
+    display: inline-flex; align-items: center;
+    color: var(--ink); text-decoration: none; font-weight: 600; font-size: 16px;
+    padding: 14px 22px; border-radius: 14px;
+    border: 1.5px solid var(--line); background: var(--surface-2);
+    transition: border-color .2s;
+  }
+  .hero .cta-ghost:hover { border-color: var(--brand); }
+
+  /* ── 截图画廊 ── */
+  .shots { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; margin-top: 52px; }
+  .shots img {
+    width: 200px; border-radius: 22px;
+    box-shadow: 0 18px 44px rgba(58,50,38,.16);
+    border: 1px solid var(--line);
+  }
+  .shots img:nth-child(2) { transform: translateY(22px); }
+  .shots img:nth-child(4) { transform: translateY(22px); }
+
+  /* ── 功能区 ── */
+  .features { padding: 84px 0; }
+  .section-title { text-align: center; font-size: clamp(24px, 3.4vw, 34px); font-weight: 800; }
+  .section-sub { text-align: center; color: var(--ink-soft); margin-top: 10px; font-size: 15px; }
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 44px; }
+  .feature {
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 20px; padding: 26px;
+    transition: transform .18s, box-shadow .18s;
+  }
+  .feature:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(58,50,38,.1); }
+  .feature .ico {
+    width: 46px; height: 46px; border-radius: 13px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(245,194,67,.25); font-size: 22px; margin-bottom: 14px;
+  }
+  .feature h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .feature p { font-size: 14px; color: var(--ink-soft); }
+  .feature .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .feature .tag {
+    font-size: 12px; background: rgba(245,194,67,.18);
+    border: 1px solid rgba(240,162,27,.25);
+    color: var(--ink); border-radius: 999px; padding: 3px 10px;
+  }
+
+  /* ── 步骤 ── */
+  .steps { padding: 20px 0 84px; }
+  .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 44px; counter-reset: step; }
+  .step {
+    position: relative; background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 18px; padding: 24px 22px;
+  }
+  .step .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--ink); color: var(--brand); font-weight: 800; font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .step p { font-size: 13.5px; color: var(--ink-soft); }
+
+  /* ── 隐私信任区 ── */
+  .trust {
+    background: var(--ink); color: var(--ink) ; border-radius: 26px;
+    padding: 54px 34px; margin: 20px 0 84px; text-align: center;
+  }
+  .trust h2 { color: #F2EDE3; font-size: clamp(22px, 3vw, 30px); font-weight: 800; }
+  .trust .sub { color: rgba(242,237,227,.72); margin-top: 10px; font-size: 15px; }
+  .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 36px; }
+  .trust-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 16px; padding: 22px 18px; text-align: left;
+  }
+  .trust-card .t { color: #F5C243; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .trust-card .d { color: rgba(242,237,227,.75); font-size: 13.5px; }
+  .trust .links { margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .trust .links a {
+    color: #F5C243; text-decoration: none; font-size: 14px; font-weight: 600;
+    border: 1px solid rgba(245,194,67,.4); border-radius: 999px; padding: 8px 18px;
+    transition: background .2s;
+  }
+  .trust .links a:hover { background: rgba(245,194,67,.14); }
+
+  /* ── FAQ ── */
+  .faq { padding: 0 0 84px; }
+  .faq details {
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 14px; padding: 18px 22px; margin-top: 12px;
+  }
+  .faq summary { cursor: pointer; font-weight: 600; font-size: 15px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  .faq summary::after { content: "+"; font-size: 18px; color: var(--brand-deep); }
+  .faq details[open] summary::after { content: "–"; }
+  .faq details p { margin-top: 10px; font-size: 14px; color: var(--ink-soft); }
+
+  /* ── 页脚 ── */
+  footer { border-top: 1px solid var(--line); padding: 34px 0 46px; background: var(--surface-2); }
+  .foot-grid { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  footer .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+  footer .brand img { width: 28px; height: 28px; border-radius: 7px; }
+  footer .flinks { display: flex; gap: 18px; font-size: 14px; }
+  footer .flinks a { color: var(--ink-soft); text-decoration: none; }
+  footer .flinks a:hover { color: var(--ink); }
+  footer .copyright { margin-top: 22px; color: var(--ink-soft); font-size: 13px; }
+
+  @media (max-width: 640px) {
+    .shots img { width: 150px; }
+    .shots img:nth-child(n) { transform: none; }
+    .nav .links a.hide-sm { display: none; }
+  }
+
+  /* ── 英文版（lang 切换）── */
+  html[lang="en"] [data-lang="zh"] { display: none; }
+  html[lang="zh-CN"] [data-lang="en"] { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">
+      <img src="app_icon_1024.png" alt="动漫头像制作">
+      <span data-lang="zh">动漫头像制作</span>
+      <span data-lang="en">Anime Avatar Maker</span>
+    </div>
+    <div class="links">
+      <a href="#features" class="hide-sm"><span data-lang="zh">功能</span><span data-lang="en">Features</span></a>
+      <a href="#privacy" class="hide-sm"><span data-lang="zh">隐私</span><span data-lang="en">Privacy</span></a>
+      <a href="#faq"><span data-lang="zh">常见问题</span><span data-lang="en">FAQ</span></a>
+      <button class="lang-switch" onclick="toggleLang()">EN / 中文</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero wrap">
+  <div class="badge">✨ <span data-lang="zh">iOS · v2.1 全新时光相机上线</span><span data-lang="en">iOS · v2.1 with the new Time Camera</span></div>
+  <h1>
+    <span data-lang="zh">一秒生成你的<span class="hl">二次元头像</span></span>
+    <span data-lang="en">Your <span class="hl">anime avatar</span>, in one tap</span>
+  </h1>
+  <p class="sub">
+    <span data-lang="zh">上传照片，一键变身动漫风、油画、赛博朋克等多种风格；时光相机让你看见变老、变小、换性别的自己。</span>
+    <span data-lang="en">Upload a photo and transform it into anime, oil painting, cyberpunk and more. The Time Camera shows you aged, younger, or gender-swapped.</span>
+  </p>
+  <div class="cta-row">
+    <a class="cta-main" href="https://apps.apple.com/app/id1507739720" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+      <span data-lang="zh">App Store 下载</span>
+      <span data-lang="en">Download on the App Store</span>
+    </a>
+    <a class="cta-ghost" href="#features">
+      <span data-lang="zh">看看能做什么 ↓</span>
+      <span data-lang="en">See what it can do ↓</span>
+    </a>
+  </div>
+  <div class="shots">
+    <img src="shot1.png" alt="变身二次元" loading="lazy">
+    <img src="shot2.png" alt="多风格头像" loading="lazy">
+    <img src="shot3.png" alt="时光相机" loading="lazy">
+    <img src="shot4.png" alt="表情包制作" loading="lazy">
+  </div>
+</section>
+
+<!-- ═══ 功能 ═══ -->
+<section id="features" class="features wrap">
+  <h2 class="section-title"><span data-lang="zh">三大核心功能</span><span data-lang="en">Three core features</span></h2>
+  <p class="section-sub"><span data-lang="zh">从头像到表情包，一个 App 全搞定</span><span data-lang="en">From avatars to memes, all in one app</span></p>
+  <div class="feature-grid">
+    <div class="feature">
+      <div class="ico">🎨</div>
+      <h3><span data-lang="zh">变身二次元</span><span data-lang="en">Anime Transform</span></h3>
+      <p><span data-lang="zh">上传照片即可生成动漫风头像，写实、油画、赛博朋克、像素、素描等多种风格任你选。</span><span data-lang="en">Turn any photo into a cartoon avatar with anime, realistic, oil painting, cyberpunk, pixel and sketch styles.</span></p>
+      <div class="tags">
+        <span class="tag"><span data-lang="zh">情侣头像</span><span data-lang="en">Couple avatars</span></span>
+        <span class="tag"><span data-lang="zh">微信/QQ 头像</span><span data-lang="en">Profile pictures</span></span>
+        <span class="tag"><span data-lang="zh">多风格</span><span data-lang="en">Multiple styles</span></span>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="ico">⏳</div>
+      <h3><span data-lang="zh">时光相机</span><span data-lang="en">Time Camera</span></h3>
+      <p><span data-lang="zh">变老、变小、换性别，四种变身效果一键预览；附带复古、黑白、雕刻等本地滤镜，不上传也能玩。</span><span data-lang="en">See yourself aged, younger, or gender-swapped in one tap, plus retro, black-and-white and engrave filters that run on-device.</span></p>
+      <div class="tags">
+        <span class="tag"><span data-lang="zh">变老滤镜</span><span data-lang="en">Aging filter</span></span>
+        <span class="tag"><span data-lang="zh">性别转换</span><span data-lang="en">Gender swap</span></span>
+        <span class="tag"><span data-lang="zh">本地滤镜</span><span data-lang="en">Local filters</span></span>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="ico">😎</div>
+      <h3><span data-lang="zh">专属表情包</span><span data-lang="en">Sticker Pack</span></h3>
+      <p><span data-lang="zh">头像表情包定制，支持顶部/底部文字、超萌动漫贴纸、头像加字，聊天斗图必备。</span><span data-lang="en">Add top and bottom captions, cute anime stickers and text to build your own sticker pack.</span></p>
+      <div class="tags">
+        <span class="tag"><span data-lang="zh">表情包</span><span data-lang="en">Memes</span></span>
+        <span class="tag"><span data-lang="zh">头像加字</span><span data-lang="en">Captioned avatars</span></span>
+        <span class="tag"><span data-lang="zh">贴纸</span><span data-lang="en">Stickers</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 步骤 ═══ -->
+<section class="steps wrap">
+  <h2 class="section-title"><span data-lang="zh">三步搞定</span><span data-lang="en">Three steps, done</span></h2>
+  <div class="step-grid">
+    <div class="step">
+      <div class="num">1</div>
+      <h3><span data-lang="zh">选一张照片</span><span data-lang="en">Pick a photo</span></h3>
+      <p><span data-lang="zh">从相册选择或直接拍摄，正面清晰的照片效果最佳。</span><span data-lang="en">Choose from your library or take one. A clear frontal photo works best.</span></p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3><span data-lang="zh">挑一个风格</span><span data-lang="en">Pick a style</span></h3>
+      <p><span data-lang="zh">动漫、油画、赛博朋克……选好风格点「生成」。</span><span data-lang="en">Anime, oil painting, cyberpunk… pick one and tap Generate.</span></p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3><span data-lang="zh">保存或分享</span><span data-lang="en">Save or share</span></h3>
+      <p><span data-lang="zh">保存到相册、设为头像，或直接分享给朋友。</span><span data-lang="en">Save to your photo library, set as avatar, or share with friends.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 隐私信任区 ═══ -->
+<section id="privacy" class="wrap">
+  <div class="trust">
+    <h2><span data-lang="zh">隐私，是我们最重要的功能</span><span data-lang="en">Privacy is our most important feature</span></h2>
+    <p class="sub"><span data-lang="zh">无注册、无社交、无广告追踪</span><span data-lang="en">No sign-up, no social feed, no ad tracking</span></p>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="t"><span data-lang="zh">🚫 不收集个人信息</span><span data-lang="en">🚫 No personal data collected</span></div>
+        <div class="d"><span data-lang="zh">不需要注册。不收集姓名、手机号、邮箱，也没有社区功能。</span><span data-lang="en">No account needed. We collect no names, phone numbers or emails, and there is no social feed.</span></div>
+      </div>
+      <div class="trust-card">
+        <div class="t"><span data-lang="zh">🗺️ 分区就近处理</span><span data-lang="en">🗺️ Region-local processing</span></div>
+        <div class="d"><span data-lang="zh">中国大陆用户由境内节点处理，数据不出境；海外用户由当地节点处理。</span><span data-lang="en">Mainland-China users are served by in-country nodes — no cross-border transfer; overseas users by local nodes.</span></div>
+      </div>
+      <div class="trust-card">
+        <div class="t"><span data-lang="zh">🔒 用完即走</span><span data-lang="en">🔒 Use and go</span></div>
+        <div class="d"><span data-lang="zh">照片只用于你点击的那一次处理，我们服务器不保存原图与结果图。</span><span data-lang="en">Photos are used only for the transformation you initiate; we keep no originals or results on our servers.</span></div>
+      </div>
+      <div class="trust-card">
+        <div class="t"><span data-lang="zh">🛡️ 内容安全机制</span><span data-lang="en">🛡️ Content safety</span></div>
+        <div class="d"><span data-lang="zh">自动内容检测 + 每条结果可举报，7 个工作日内响应处置。</span><span data-lang="en">Automated detection plus per-item reporting, handled within 7 business days.</span></div>
+      </div>
+    </div>
+    <div class="links">
+      <a href="privacy-zh.html"><span data-lang="zh">隐私政策（中文）</span><span data-lang="en">Privacy Policy (Chinese)</span></a>
+      <a href="privacy-en.html"><span data-lang="zh">Privacy Policy (English)</span><span data-lang="en">Privacy Policy (English)</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq" class="faq wrap">
+  <h2 class="section-title"><span data-lang="zh">常见问题</span><span data-lang="en">FAQ</span></h2>
+  <details>
+    <summary><span data-lang="zh">生成的头像可以商用吗？</span><span data-lang="en">Can I use the avatars commercially?</span></summary>
+    <p><span data-lang="zh">生成的图片仅供个人娱乐与社交使用（如社交头像、表情包）。请勿用于冒充他人或任何违法用途；商用前请自行确认相关权利。</span><span data-lang="en">Generated images are for personal entertainment and social use (avatars, memes). Do not use them to impersonate anyone or for illegal purposes; verify rights before commercial use.</span></p>
+  </details>
+  <details>
+    <summary><span data-lang="zh">次数是怎么收费的？</span><span data-lang="en">How do transformation credits work?</span></summary>
+    <p><span data-lang="zh">¥6 可购买 10 次变身（一次性消耗型购买，非订阅，不自动续费）。生成失败或被内容检测拦截时会自动退还次数。</span><span data-lang="en">10 transformations for a small one-time purchase (consumable, not a subscription, no auto-renewal). Failed or blocked generations are automatically refunded.</span></p>
+  </details>
+  <details>
+    <summary><span data-lang="zh">我的照片会被保存或用于训练模型吗？</span><span data-lang="en">Are my photos stored or used for training?</span></summary>
+    <p><span data-lang="zh">不会。照片只用于你发起的那一次处理；我们不在自有服务器保存原图与结果图，也不用你的照片训练模型。详见隐私政策。</span><span data-lang="en">No. Photos are used only for the transformation you initiate; nothing is kept on our servers and nothing is used for model training. See the Privacy Policy for details.</span></p>
+  </details>
+  <details>
+    <summary><span data-lang="zh">支持哪些设备？</span><span data-lang="en">Which devices are supported?</span></summary>
+    <p><span data-lang="zh">iPhone（iOS 15 或更高版本）与 iPad。生成结果保存在设备本地，卸载 App 会清除本地记录。</span><span data-lang="en">iPhone (iOS 15 or later) and iPad. Results are stored locally; uninstalling the app clears them.</span></p>
+  </details>
+</section>
+
+<!-- ═══ 页脚 ═══ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="brand">
+        <img src="app_icon_1024.png" alt="">
+        <span data-lang="zh">动漫头像制作</span>
+        <span data-lang="en">Anime Avatar Maker</span>
+      </div>
+      <div class="flinks">
+        <a href="privacy-zh.html"><span data-lang="zh">隐私政策</span><span data-lang="en">Privacy (ZH)</span></a>
+        <a href="privacy-en.html"><span data-lang="zh">Privacy (English)</span><span data-lang="en">Privacy (EN)</span></a>
+        <a href="https://apps.apple.com/app/id1507739720" target="_blank" rel="noopener">App Store</a>
+      </div>
+    </div>
+    <p class="copyright">
+      <span data-lang="zh">© 2026 动漫头像制作 · 仅供个人娱乐使用</span>
+      <span data-lang="en">© 2026 Anime Avatar Maker · For personal entertainment only</span>
+    </p>
+  </div>
+</footer>
+
+<script>
+function toggleLang() {
+  const html = document.documentElement;
+  const cur = html.getAttribute('lang');
+  html.setAttribute('lang', cur === 'zh-CN' ? 'en' : 'zh-CN');
+}
+// 首次按浏览器语言初始化
+(function () {
+  if (!/^zh/i.test(navigator.language || '')) {
+    document.documentElement.setAttribute('lang', 'en');
+  }
+})();
+</script>
+</body>
+</html>
