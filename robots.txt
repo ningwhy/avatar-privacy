@@ -1,0 +1,50 @@
+# robots.txt — 动漫头像制作（App Store ID 1507739720 / com.head.anime）
+#
+# 说明：本文件保留 Cloudflare Pages 自动生成的内容信号（content signals）声明，
+# 并额外显式放行 Google 广告抓取器，确保 app-ads.txt 可被抓取与验证。
+#
+# 依据：Google AdMob 官方《解决 app-ads.txt 的问题》《确保您的 app-ads.txt 文件可被抓取》
+#   —— 抓取工具会遵循 Google-adstxt / Mediapartners-Google / Googlebot 的 robots.txt 规则，
+#      官方要求显式加入 "User-agent: Google-adstxt" + "Disallow:" 两行以放行。
+#   参考：https://support.google.com/admob/answer/9776740
+#         https://support.google.com/admob/answer/9679128
+
+# --- 内容信号（保留 Cloudflare 声明，勿删） ---
+# As a condition of accessing this website, you agree to abide by the following
+# content signals:
+
+# (a)  If a content-signal = yes, you may collect content for the corresponding
+#      use.
+# (b)  If a content-signal = no, you may not collect content for the
+#      corresponding use.
+# (c)  If the website operator does not include a content signal for a
+#      corresponding use, the website operator neither grants nor restricts
+#      permission via content signal with respect to the corresponding use.
+
+# The content signals and their meanings are:
+
+# search:   building a search index and providing search results (e.g., returning
+#            hyperlinks and excerpts from your website's contents). Search does
+#            not include providing AI-generated search summaries.
+# ai-input: inputting content into one or more AI models (e.g., retrieval
+#            augmented generation, grounding, or other real-time taking of content
+#            for generative AI search answers).
+# ai-train: training or fine-tuning AI models.
+
+# ANY RESTRICTIONS EXPRESSED VIA CONTENT SIGNALS ARE EXPRESS RESERVATIONS OF
+# RIGHTS UNDER ARTICLE 4 OF THE EUROPEAN UNION DIRECTIVE 2019/790 ON COPYRIGHT
+# AND RELATED RIGHTS IN THE DIGITAL SINGLE MARKET.
+
+# --- 显式放行 Google 广告抓取器（app-ads.txt 验证必需） ---
+User-agent: Google-adstxt
+Disallow:
+
+User-agent: Mediapartners-Google
+Disallow:
+
+User-agent: Googlebot
+Disallow:
+
+# --- 其余爬虫：允许抓取公开页面 ---
+User-agent: *
+Disallow:
