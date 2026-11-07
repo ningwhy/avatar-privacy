@@ -41,13 +41,14 @@
 <div class="wrap">
 
 <h1>Anime Avatar Maker &mdash; Privacy Policy</h1>
-<div class="meta">Updated: November 3, 2026 &nbsp;|&nbsp; Effective: November 3, 2026 &nbsp;|&nbsp; Version v2.4 (EN)</div>
+<div class="meta">Updated: November 6, 2026 &nbsp;|&nbsp; Effective: November 6, 2026 &nbsp;|&nbsp; Version v2.4.1 (EN)</div>
 
 <div class="card">
 <p><strong>In three sentences:</strong></p>
 <p>1. This app <strong>requires no account</strong>. We collect no name, phone number, or email; there is no social feed, and none of your photos are ever made public.</p>
 <p>2. A photo you select is used <strong>only for the single generation you explicitly trigger</strong>; no copy is retained after processing completes.</p>
 <p>3. Photos are processed on <strong>regional cloud infrastructure</strong> (RunningHub): users in mainland China are served by in-country nodes (<strong>data stays in China</strong>); users elsewhere are served by nodes located in the United States (Silicon Valley). Because photos may contain faces, we ask for your <strong>explicit separate consent</strong> before the first use.</p>
+<p>For ads and tracking, see Section 5.2.</p>
 </div>
 
 <h2>1. Information We Collect</h2>
@@ -65,8 +66,8 @@
 <ul>
 <li>Names, phone numbers, email addresses, contacts, messages, or call logs</li>
 <li>Precise location</li>
-<li>Advertising identifiers (IDFA) &mdash; whether to allow cross-app tracking is your choice in the system prompt: if granted, used for ad delivery and attribution; <strong>declining changes nothing</strong> &mdash; ads still show (non-personalised) and every feature stays usable. We build no cross-app profiles. Google AdMob ads appear in four formats: app-open ads (at launch or when returning from the background), interstitial ads (after a generation finishes; at least 60 seconds apart, at most 3 per session), in-feed native ads, and rewarded videos that play only when you choose them; <strong>buying credits or subscribing to VIP turns off app-open, interstitial and native ads</strong>. In the EEA only non-personalised ads are served</li>
-<li>Your activity in other apps</li>
+<li>Except for the advertising identifier (IDFA), which is obtained only after you grant permission through the system ATT prompt as described in Section 5.2, we do not obtain identifiers used to track you across apps or websites; ad formats, permission and opt-out are described in Sections 5 and 5.2</li>
+<li>Your activity in other apps and websites when you have not granted ATT permission (the advertising identifier and ad interaction data used after permission is granted are described in Section 5.2)</li>
 </ul>
 
 <h2>2. How Photos Are Processed</h2>
@@ -102,7 +103,7 @@
 <tr><th>Provider</th><th>Purpose</th><th>Data involved</th><th>Policy</th></tr>
 <tr><td>RunningHub (China, www.runninghub.cn)<br>Operator: RunningHub</td><td>AI style transformation (mainland-China users, in-country nodes)</td><td>Selected photo, generated result</td><td>www.runninghub.cn</td></tr>
 <tr><td>RunningHub (International, www.runninghub.ai)<br>Operator: Hong Kong Huize Technology Co., Limited</td><td>AI style transformation (users outside mainland China, US nodes)</td><td>Selected photo, generated result</td><td>www.runninghub.ai/policy</td></tr>
-<tr><td>Google AdMob (ad component)</td><td>Ad serving (four formats): app-open ads (at launch or when returning from the background), interstitial ads (after a generation finishes; at least 60 seconds apart, at most 3 per session), in-feed native ads, and rewarded videos (only when you choose them). Buying credits or subscribing to VIP turns off app-open, interstitial and native ads; in the EEA only non-personalised ads are served</td><td>Device identifiers (IDFA/GAID, only with system permission), coarse location (country-level, for ad delivery), diagnostics (crash &amp; performance)</td><td>policies.google.com/privacy</td></tr>
+<tr><td>Google AdMob (ad component)</td><td>Ad serving (four formats): app-open ads (at launch or when returning from the background), interstitial ads (after a generation finishes; at least 60 seconds apart, at most 3 per session), in-feed native ads, and rewarded videos (only when you choose them). Buying credits or subscribing to VIP turns off app-open, interstitial and native ads; in the EEA only non-personalised ads are served</td><td>Device identifiers (IDFA/GAID, only with system permission), coarse location (country-level, for ad delivery), ad interaction data (impressions/clicks), diagnostics (crash &amp; performance)</td><td>policies.google.com/privacy</td></tr>
 <tr><td>Apple Inc.</td><td>In-app purchase and payment processing</td><td>Purchase receipt (we never see your payment card details)</td><td>apple.com/legal/privacy</td></tr>
 </table>
 <p>Apart from the providers above, and where required by law, we <strong>do not</strong> sell, rent, or share your personal information with anyone.</p>
@@ -110,11 +111,18 @@
 <h3>5.1 Ad Data and Attribution</h3>
 <ul>
 <li><strong>Timing and frequency caps</strong>: app-open ads appear at launch or when returning from the background (returning from the background requires at least 5 minutes away, at most once per cold start, and at least 60 seconds between two app-open ads); interstitial ads appear only after a generation finishes, at least 60 seconds apart and at most 3 per session; native ads appear in the home feed; rewarded videos play only when you choose them.</li>
-<li><strong>Attribution</strong>: the ad component uses Apple's SKAdNetwork framework for conversion attribution. This does not involve user-level tracking across apps.</li>
+<li><strong>Attribution &amp; conversion measurement</strong>: the ad component includes ad-attribution and conversion-measurement capabilities; the mechanisms involved and the data types are described in Section 5.2. Once you grant ATT permission, the advertising identifier and ad interaction data are used for the cross-app and cross-website tracking described in Section 5.2.</li>
 <li><strong>Data retention</strong>: retention of ad data follows Google's advertising data retention policy (see the Google privacy policy). You can turn off "Allow Apps to Request to Track" in Settings &rarr; Privacy &amp; Security &rarr; Tracking; ads still show in non-personalised form and every feature stays usable.</li>
 <li><strong>Paid-user exemption</strong>: after buying a credit pack or subscribing to VIP, app-open, interstitial and native ads are never shown.</li>
 </ul>
 
+<h3>5.2 Tracking, ATT Permission, and Data Linkage</h3>
+<ul>
+<li><strong>ATT permission prompt</strong>: before you first use any ad-related feature, the app asks for your permission through a system prompt (App Tracking Transparency, or ATT); the choice is yours. You can change it at any time under Settings &rarr; Privacy &amp; Security &rarr; Tracking, and you can reset the advertising identifier under Settings &rarr; Privacy &amp; Security (the exact menu path varies by iOS version).</li>
+<li><strong>If you grant permission (data used for tracking)</strong>: once granted, the app obtains the advertising identifier (IDFA) and Google AdMob collects device identifiers, coarse location (country-level), ad interaction data (impressions and clicks), and diagnostics, used for targeted ad delivery and ad-attribution measurement across apps and websites. Such data is linked to your device or identifier and may be combined with data held by third parties (advertisers, Google), which constitutes &ldquo;tracking&rdquo; as defined by Apple. This collection and linkage is performed by Google AdMob; see the Google privacy policy at <code>policies.google.com/privacy</code>. Photos you upload are never used for advertising (see 2.2).</li>
+<li><strong>If you decline (no tracking)</strong>: if you decline or later turn tracking off, the app does not obtain the IDFA and serves only non-personalised (contextual) ads, with no cross-app or cross-website tracking; ad data is not linked to your identity and every feature stays usable.</li>
+<li><strong>Linked-to-identity status</strong>: accordingly, the ad data above is linked to your device or identity for users who grant permission and not linked for users who do not; turning off tracking or resetting the advertising identifier in system settings stops that linkage. We still collect no name, phone number, or email (see 1.4).</li>
+</ul>
 
 <h2>6. How We Protect Information</h2>
 <ul>
@@ -188,9 +196,10 @@
 
 <h2>11. Changes to This Policy</h2>
 <p>When the purpose of processing, data types, or third-party services change materially, we will update this policy and notify you in the app. Where a change requires fresh consent (for example, adding a recipient or a processing location that causes a new international transfer), we will ask for your separate consent again.</p>
+<p>This revision (v2.4.1) is a clarificatory update describing the tracking and data-linkage disclosures that apply after ATT permission is granted, aligning this policy with our App Store privacy answers; it does not change the purposes of photo processing, data retention, or third-party providers.</p>
 
 <div class="foot">
-<p>This policy takes effect on November 3, 2026 (ad disclosure updated to four formats — app-open, interstitial, native, rewarded — aligned with the in-app consent screen), replacing the October 30, 2026 version.</p>
+<p>This policy takes effect on November 6, 2026 (this revision clarifies the tracking and data-linkage disclosures after ATT permission is granted, aligning with our App Store privacy answers), replacing the November 3, 2026 version (v2.4).</p>
 <p>Anime Avatar Maker</p>
 </div>
 
